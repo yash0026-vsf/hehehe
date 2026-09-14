@@ -1,5 +1,14 @@
-// Local persistence layer for the prototype. Swap for a real backend/DB later.
-const PREFIX = 'statskill:'
+// Local persistence layer for the prototype. Bumped prefix to ensure fresh state.
+const PREFIX = 'statskill_emerald_v2:'
+
+// Purge old cached prototype data if present
+if (typeof window !== 'undefined') {
+  try {
+    Object.keys(localStorage)
+      .filter((k) => k.startsWith('statskill:') && !k.startsWith('statskill_emerald_v2:'))
+      .forEach((k) => localStorage.removeItem(k))
+  } catch {}
+}
 
 export function loadState<T>(key: string, fallback: T): T {
   try {
